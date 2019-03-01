@@ -1,0 +1,109 @@
+Stock_Data_Script
+
+Sub Stock_Data()
+        
+        
+    ' Set an initial variable for holding the ticker
+         
+        Dim Ticker As String
+        
+    ' Set initial variable for closing price
+        
+        Dim Beg_Price As Double
+        Dim End_Price As Double
+
+    ' Set an initial variable for holding the yearly change per ticker
+        Dim Yearly_Change As Double
+        Yearly_Change = 0
+    
+    ' Set an initial variable for holding the total per ticker
+        Dim Volume_Total As Double
+        Volume_Total = 0
+
+    ' Keep track of the location for each ticker in the summary table
+        Dim Summary_Table_Row As Integer
+        Summary_Table_Row = 2
+        
+    ' Determine the Last Row
+        LastRow = Cells(Rows.Count, 1).End(xlUp).Row
+       
+        Sumary_Table_Row = 0
+
+    'Loop through all tickers
+        For i = 2 To LastRow
+    
+    'Set the ticker name
+        Ticker = Cells(i, 1).Value
+    
+     'Set beginning price
+        If Cells(i - 1, 1).Value <> Cells(i, 1).Value Then
+        Beg_Price = Cells(i, 3).Value
+
+         ElseIf Cells(i + 1, 1).Value <> Cells(i, 1).Value Then
+                   
+        'Set the Ticker
+        Ticker = Cells(i, 1).Value
+
+        'Set the end price
+         End_Price = Cells(i, 6).Value
+
+        ' Compute yearly change and percent change
+          Yearly_Change = End_Price - Beg_Price
+         Percent_Change = Yearly_Change / Beg_Price
+
+        
+    'Add to the volume Total
+        Volume_Total = Volume_Total + Cells(i, 7).Value
+
+    
+    'Print the ticker symbol in the Summary Table
+        Range("I" & Summary_Table_Row).Value = Ticker
+        
+    'Print the yearly change in the Summary Table
+        Range("J" & Summary_Table_Row).Value = Yearly_Change
+
+    'Print the percent change in the summary table
+        Range("K" & Summary_Table_Row).Value = Percent_Change
+    
+    'Print the volume total to the Summary Table
+        Range("L" & Summary_Table_Row).Value = Volume_Total
+
+    'Add one to the summary table row
+        Summary_Table_Row = Summary_Table_Row + 1
+      
+    'Reset the volume Total
+        Volume_Total = 0
+    'If the cell immediately following a row is the same Ticker...
+        Else
+
+    'Add to the volume Total
+        Volume_Total = Volume_Total + Cells(i, 7).Value
+         
+    'Print Ticker heading
+        Cells(1, 9).Value = "Ticker"
+        
+    'Print Yearly Change heading
+        Cells(1, 10).Value = "Yearly Change"
+        
+    'Print Percent Change
+        Cells(1, 11).Value = "Percent Change"
+         
+    'Print Total Stock Volume heading
+        Cells(1, 12).Value = "Total Volume"
+       
+    'Set the interior color to red for negative values
+        'If Cells(i, 10).Value >= 0 Then
+        'Cells(2, 3).Interior.ColorIndex = 3
+        
+            
+     
+        
+        End If
+
+    Next i
+         
+         
+    
+    End Sub
+
+
